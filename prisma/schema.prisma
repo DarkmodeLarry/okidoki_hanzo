@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Portfolio {
+  id        Int      @id @default(autoincrement())
+  name      String
+  userId    String
+  color     String
+  createdAt DateTime @default(now())
+
+  formRecords FormRecord[]
+
+  @@unique([name, userId])
+}
+
+model FormRecord {
+  id        Int       @id @default(autoincrement())
+  formName  String
+  userId    String
+  done      Boolean   @default(false)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  portfolioId Int
+  Portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
