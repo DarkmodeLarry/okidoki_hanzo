@@ -1,17 +1,17 @@
-"use server";
+'use server'
 
-import { prisma } from "@/lib/prisma";
-import { createFormRecordSchemaType } from "@/schema/createFormRecord";
-import { currentUser } from "@clerk/nextjs";
+import { prisma } from '@/lib/prisma'
+import { createFormRecordSchemaType } from '@/schema/createFormRecord'
+import { currentUser } from '@clerk/nextjs'
 
 export async function createFormRecord(data: createFormRecordSchemaType) {
-  const user = await currentUser();
+  const user = await currentUser()
 
   if (!user) {
-    throw new Error("user not found");
+    throw new Error('user not found')
   }
 
-  const { formName, expiresAt, portfolioId } = data;
+  const { formName, expiresAt, portfolioId } = data
 
   return await prisma.formRecord.create({
     data: {
@@ -20,27 +20,27 @@ export async function createFormRecord(data: createFormRecordSchemaType) {
       expiresAt,
       Portfolio: {
         connect: {
-          id: portfolioId,
-        },
-      },
-    },
-  });
+          id: portfolioId
+        }
+      }
+    }
+  })
 }
 
-export async function setTaskToDone(id: number) {
-  const user = await currentUser();
+export async function setAddFormRecordToDone(id: number) {
+  const user = await currentUser()
 
   if (!user) {
-    throw new Error("user not found");
+    throw new Error('user not found')
   }
 
   return await prisma.formRecord.update({
     where: {
       id: id,
-      userId: user.id,
+      userId: user.id
     },
     data: {
-      done: true,
-    },
-  });
+      done: true
+    }
+  })
 }

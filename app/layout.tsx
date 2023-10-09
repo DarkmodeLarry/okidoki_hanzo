@@ -1,48 +1,36 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Separator } from "@/components/ui/separator";
-import NavBar from "@/components/NavBar";
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import '@/styles/globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
+import { Separator } from '@/components/ui/separator'
+import NavBar from '@/components/NavBar'
+import { ThemeProvider } from '@/providers/ThemeProvider'
+import { cn } from '@/lib/utils'
+import { Toaster } from '@/components/ui/toaster'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "RemindMe",
-  description: "Created by: @CodeWithKliton",
-};
+  title: 'OkiDoki',
+  description: 'Created by: @Hanzokeyz'
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <html
-        lang="en"
-        className={cn(inter.className, "dark")}
+        lang='en'
+        className={cn(inter.className, 'dark')}
         style={{
-          colorScheme: "dark",
+          colorScheme: 'dark'
         }}
       >
         <body>
           <ThemeProvider>
-            <div
-              className="
-             flex
-             min-h-screen
-             w-full
-             flex-col
-             items-center
-             dark:bg-black"
-            >
+            <div className=' dark:bg-black flex flex-col items-center w-full min-h-screen'>
               <NavBar />
               <Separator />
-              <main className="flex flex-grow w-full justify-center items-center dark:bg-neutral-950">
+              <main className='dark:bg-neutral-950 flex items-center justify-center flex-grow w-full'>
                 {children}
                 <Toaster />
               </main>
@@ -51,5 +39,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }
