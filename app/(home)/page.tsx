@@ -11,15 +11,17 @@ import StepperComponent from '@/components/templates/stepper-form/StepperCompone
 export default async function Home() {
   return (
     <>
-      <Suspense fallback={<WelcomeMsgFallback />}>
-        <WelcomMsg />
-      </Suspense>
-      <Suspense fallback={<div>Loading portfolios...</div>}>
-        <PortfolioList />
-      </Suspense>
-      <Suspense fallback={<div>Loading portfolios...</div>}>
-        <StepperComponent />
-      </Suspense>
+      <div className='flex flex-col px-12'>
+        <Suspense fallback={<WelcomeMsgFallback />}>
+          <WelcomMsg />
+        </Suspense>
+        <Suspense fallback={<div>Loading portfolios...</div>}>
+          <PortfolioList />
+        </Suspense>
+        <Suspense fallback={<div>Loading portfolios...</div>}>
+          <StepperComponent />
+        </Suspense>
+      </div>
     </>
   )
 }
@@ -32,7 +34,7 @@ async function WelcomMsg() {
   }
 
   return (
-    <div className='flex w-full mb-12'>
+    <div className=' flex w-full mb-12'>
       <h1 className='text-4xl font-bold'>
         Welcome, <br /> {user.firstName} {user.lastName}
       </h1>
@@ -68,7 +70,7 @@ async function PortfolioList() {
         <Alert>
           <SadFace />
           <AlertTitle>There are no portfolios yet!</AlertTitle>
-          <AlertDescription>Create a collection to get started</AlertDescription>
+          <AlertDescription>Create a portfolio to get started</AlertDescription>
         </Alert>
         <CreatePortfolioButton />
       </div>
@@ -78,7 +80,7 @@ async function PortfolioList() {
   return (
     <>
       <CreatePortfolioButton />
-      <div className='flex flex-col gap-4 mt-6'>
+      <div className=' flex flex-col gap-4 m-3'>
         {portfolios.map((portfolio) => (
           <PortfolioCard key={portfolio.id} portfolio={portfolio} />
         ))}

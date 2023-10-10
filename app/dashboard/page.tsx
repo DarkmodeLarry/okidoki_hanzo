@@ -1,186 +1,186 @@
-'use client'
+import { Metadata } from 'next'
+import Image from 'next/image'
 
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { useMultiplestepForm } from '@/components/templates/multi-step-form/useMultiplestepForm'
-import { AnimatePresence } from 'framer-motion'
-import UserInfoForm from '@/components/templates/multi-step-form/UserInfoForm'
-import PlanForm from '@/components/templates/multi-step-form/PlanForm'
-import AddonsForm from '@/components/templates/multi-step-form/AddonsForm'
-import FinalStep from '@/components/templates/multi-step-form/FinalStep'
-import SuccessMessage from '@/components/templates/multi-step-form/SuccessMessage'
-import SideBar from '@/components/templates/multi-step-form/SideBar'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import TeamSwitcher from '@/components/team-switcher'
+import { MainNav } from '@/components/main-nav'
+import { Search } from '@/components/search'
+import { UserNav } from '@/components/user-nav'
+import { CalendarDateRangePicker } from '@/components/date-range-picker'
+import { Overview } from '@/components/overview'
+import { RecentSales } from '@/components/recent-sales'
 
-interface AddOn {
-  id: number
-  checked: boolean
-  title: string
-  subtitle: string
-  price: number
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Example dashboard app built using the components.'
 }
 
-export type FormItems = {
-  name: string
-  email: string
-  phone: string
-  plan: 'arcade' | 'advanced' | 'pro'
-  yearly: boolean
-  addOns: AddOn[]
-}
-
-const initialValues: FormItems = {
-  name: '',
-  email: '',
-  phone: '',
-  plan: 'arcade',
-  yearly: false,
-  addOns: [
-    {
-      id: 1,
-      checked: true,
-      title: 'Online Service',
-      subtitle: 'Access to multiple games',
-      price: 1
-    },
-    {
-      id: 2,
-      checked: false,
-      title: 'Large storage',
-      subtitle: 'Extra 1TB of cloud save',
-      price: 2
-    },
-    {
-      id: 3,
-      checked: false,
-      title: 'Customizable Profile',
-      subtitle: 'Custom theme on your profile',
-      price: 2
-    }
-  ]
-}
-
-export default function Home() {
-  const [formData, setFormData] = useState(initialValues)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const {
-    previousStep,
-    nextStep,
-    currentStepIndex,
-    isFirstStep,
-    isLastStep,
-    steps,
-    goTo,
-    showSuccessMsg
-  } = useMultiplestepForm(4)
-
-  function updateForm(fieldToUpdate: Partial<FormItems>) {
-    const { name, email, phone } = fieldToUpdate
-
-    if (name && name.trim().length < 3) {
-      setErrors((prevState) => ({
-        ...prevState,
-        name: 'Name should be at least 3 characters long'
-      }))
-    } else if (name && name.trim().length > 15) {
-      setErrors((prevState) => ({
-        ...prevState,
-        name: 'Name should be no longer than 15 characters'
-      }))
-    } else {
-      setErrors((prevState) => ({
-        ...prevState,
-        name: ''
-      }))
-    }
-
-    if (email && !/\S+@\S+\.\S+/.test(email)) {
-      setErrors((prevState) => ({
-        ...prevState,
-        email: 'Please enter a valid email address'
-      }))
-    } else {
-      setErrors((prevState) => ({
-        ...prevState,
-        email: ''
-      }))
-    }
-
-    if (phone && !/^[0-9]{10}$/.test(phone)) {
-      setErrors((prevState) => ({
-        ...prevState,
-        phone: 'Please enter a valid 10-digit phone number'
-      }))
-    } else {
-      setErrors((prevState) => ({
-        ...prevState,
-        phone: ''
-      }))
-    }
-
-    setFormData({ ...formData, ...fieldToUpdate })
-  }
-
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (Object.values(errors).some((error) => error)) {
-      return
-    }
-    nextStep()
-  }
-
+export default function DashboardPage() {
   return (
-    <div
-      className={`flex justify-between ${
-        currentStepIndex === 1 ? 'h-full border-4' : 'h-[500px]'
-      } w-11/12 max-w-4xl relative m-1 rounded-lg border border-neutral-700 bg-[#262626] p-4`}
-    >
-      {!showSuccessMsg ? <SideBar currentStepIndex={currentStepIndex} goTo={goTo} /> : ''}
-      <main className={`${showSuccessMsg ? 'w-full' : 'w-full md:mt-5 md:w-[65%]'}`}>
-        {showSuccessMsg ? (
-          <AnimatePresence mode='wait'>
-            <SuccessMessage />
-          </AnimatePresence>
-        ) : (
-          <form onSubmit={handleOnSubmit} className='flex flex-col justify-between w-full h-full'>
-            <AnimatePresence mode='wait'>
-              {currentStepIndex === 0 && (
-                <UserInfoForm key='step1' {...formData} updateForm={updateForm} errors={errors} />
-              )}
-              {currentStepIndex === 1 && (
-                <PlanForm key='step2' {...formData} updateForm={updateForm} />
-              )}
-              {currentStepIndex === 2 && (
-                <AddonsForm key='step3' {...formData} updateForm={updateForm} />
-              )}
-              {currentStepIndex === 3 && <FinalStep key='step4' {...formData} goTo={goTo} />}
-            </AnimatePresence>
-            <div className='flex items-center justify-between w-full'>
-              <div className=''>
-                <Button
-                  onClick={previousStep}
-                  type='button'
-                  variant='ghost'
-                  className={`${
-                    isFirstStep ? 'invisible' : 'visible p-0 text-neutral-200 hover:text-white'
-                  }`}
-                >
-                  Go Back
-                </Button>
-              </div>
-              <div className='flex items-center'>
-                <div className='relative after:pointer-events-none after:absolute after:inset-px after:rounded-[11px] after:shadow-highlight after:shadow-white/10 focus-within:after:shadow-[#77f6aa] after:transition'>
-                  <Button
-                    type='submit'
-                    className='text-neutral-200 bg-neutral-900 border-black/20 shadow-input shadow-black/10 rounded-xl hover:text-white relative border'
-                  >
-                    {isLastStep ? 'Confirm' : 'Next Step'}
-                  </Button>
-                </div>
-              </div>
+    <>
+      <div className='md:hidden'>
+        <Image
+          src='/examples/dashboard-light.png'
+          width={1280}
+          height={866}
+          alt='Dashboard'
+          className='dark:hidden block'
+        />
+        <Image
+          src='/examples/dashboard-dark.png'
+          width={1280}
+          height={866}
+          alt='Dashboard'
+          className='dark:block hidden'
+        />
+      </div>
+      <div className='md:flex flex-col hidden'>
+        <div className='border-b'>
+          <div className='flex items-center h-16 px-4'>
+            <TeamSwitcher />
+            <MainNav className='mx-6' />
+            <div className='flex items-center ml-auto space-x-4'>
+              <Search />
+              <UserNav />
             </div>
-          </form>
-        )}
-      </main>
-    </div>
+          </div>
+        </div>
+        <div className='flex-1 p-8 pt-6 space-y-4'>
+          <div className='flex items-center justify-between space-y-2'>
+            <h2 className='text-3xl font-bold tracking-tight'>Dashboard</h2>
+            <div className='flex items-center space-x-2'>
+              <CalendarDateRangePicker />
+              <Button>Download</Button>
+            </div>
+          </div>
+          <Tabs defaultValue='overview' className='space-y-4'>
+            <TabsList>
+              <TabsTrigger value='overview'>Overview</TabsTrigger>
+              <TabsTrigger value='analytics' disabled>
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value='reports' disabled>
+                Reports
+              </TabsTrigger>
+              <TabsTrigger value='notifications' disabled>
+                Notifications
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value='overview' className='space-y-4'>
+              <div className='md:grid-cols-2 lg:grid-cols-4 grid gap-4'>
+                <Card>
+                  <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
+                    <CardTitle className='text-sm font-medium'>Total Revenue</CardTitle>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      className='text-muted-foreground w-4 h-4'
+                    >
+                      <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                    </svg>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='text-2xl font-bold'>$45,231.89</div>
+                    <p className='text-muted-foreground text-xs'>+20.1% from last month</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
+                    <CardTitle className='text-sm font-medium'>Subscriptions</CardTitle>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      className='text-muted-foreground w-4 h-4'
+                    >
+                      <path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' />
+                      <circle cx='9' cy='7' r='4' />
+                      <path d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75' />
+                    </svg>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='text-2xl font-bold'>+2350</div>
+                    <p className='text-muted-foreground text-xs'>+180.1% from last month</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
+                    <CardTitle className='text-sm font-medium'>Sales</CardTitle>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      className='text-muted-foreground w-4 h-4'
+                    >
+                      <rect width='20' height='14' x='2' y='5' rx='2' />
+                      <path d='M2 10h20' />
+                    </svg>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='text-2xl font-bold'>+12,234</div>
+                    <p className='text-muted-foreground text-xs'>+19% from last month</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
+                    <CardTitle className='text-sm font-medium'>Active Now</CardTitle>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      className='text-muted-foreground w-4 h-4'
+                    >
+                      <path d='M22 12h-4l-3 9L9 3l-3 9H2' />
+                    </svg>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='text-2xl font-bold'>+573</div>
+                    <p className='text-muted-foreground text-xs'>+201 since last hour</p>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className='md:grid-cols-2 lg:grid-cols-7 grid gap-4'>
+                <Card className='col-span-4'>
+                  <CardHeader>
+                    <CardTitle>Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent className='pl-2'>
+                    <Overview />
+                  </CardContent>
+                </Card>
+                <Card className='col-span-3'>
+                  <CardHeader>
+                    <CardTitle>Recent Sales</CardTitle>
+                    <CardDescription>You made 265 sales this month.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <RecentSales />
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+    </>
   )
 }

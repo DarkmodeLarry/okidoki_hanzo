@@ -1,7 +1,7 @@
 'use server'
 import { prisma } from '@/lib/prisma'
 import { wait } from '@/lib/wait'
-import { createPortfolioSchemaType } from '@/schema/createPortfolio'
+import { createPortfolioSchemaType } from '@/schema/createPortfolioSchema'
 import { currentUser } from '@clerk/nextjs'
 
 export async function createPortfolio(form: createPortfolioSchemaType) {

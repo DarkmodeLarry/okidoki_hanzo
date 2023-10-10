@@ -32,4 +32,90 @@ model FormRecord {
 
   portfolioId Int
   Portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  Client      Client?   @relation(fields: [clientId], references: [id])
+  clientId    Int?
 }
+
+model Client {
+  id             Int     @id @default(autoincrement())
+  firstName      String
+  middleName     String?
+  lastName       String?
+  driversLicense String?
+  dob            String?
+  sex            String?
+  email          String?
+  phone          String?
+
+  streetAddress String?
+  city          String?
+  state         String?
+  zip           String?
+
+  createdAt DateTime @default(now())
+
+  formRecords FormRecord[]
+}
+
+model IrrevocableLivingTrustForm {
+  id                   Int          @id @default(autoincrement())
+  formName             String       @default("Irrevocable Living Trust Form")
+  documentName         String       @default("Irrevocable Living Trust")
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  grantorName1         String
+  status               FormStatus[] @default([Pending])
+  ClientAcknowlegement Boolean      @default(false)
+}
+
+enum FormRecords {
+  IrrevocableLivingTrustForm
+  RevocableLivingTrustForm
+  PowerOfAttorneyForm
+}
+
+enum FormStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+// model IrrevocableLivingTrustForm {
+//   id           Int    @id @default(autoincrement())
+//   formName     String @default("Irrevocable Living Trust Form")
+//   documentName String @default("Irrevocable Living Trust")
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// document fields
+
+// date                   String
+// date2                  String?
+// date3                  String?
+// grantors
+// grantorName1 String
+// grantorSSN1            String
+// grantorDOB1            String
+// grantorPrimaryAddress1 String
+// grantorMailingAddress1 String
+// grantor2               String?
+// grantorSSN2            String?
+// grantorDOB2            String?
+// grantorPrimaryAddress2 String?
+// grantorMailingAddress2 String?
+// // beneficiary
+// beneficiary1           String
+// beneficiaryDOB1        String
+// beneficiarySSN1        String
+// beneficiaryAddress1    String
+// beneficiaryAPN1        String
+
+// beneficiary2        String?
+// beneficiaryDOB2     String?
+// beneficiarySSN2     String?
+// beneficiaryAddress2 String?
+// beneficiaryAPN2     String?
+
+//   status               FormStatus[] @default([Pending])
+//   ClientAcknowlegement Boolean      @default(false)
+// }

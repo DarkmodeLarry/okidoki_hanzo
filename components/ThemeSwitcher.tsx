@@ -18,7 +18,7 @@ function ThemeSwitcher() {
 
   return (
     <Tabs defaultValue={theme}>
-      <TabsList className='border dark:border-neutral-800 dark:bg-[#030303]'>
+      <TabsList className='border dark:border-neutral-800/80 dark:bg-[#1515157d]'>
         <TabsTrigger value='light' onClick={(e) => setTheme('light')}>
           <SunIcon className='h-[1.2rem] w-[1.2rem]' />
         </TabsTrigger>

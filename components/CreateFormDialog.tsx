@@ -6,7 +6,7 @@ import { DialogTitle } from '@radix-ui/react-dialog'
 import { cn } from '@/lib/utils'
 import { PortfolioColor, PortfolioColors } from '@/lib/constants'
 import { useForm } from 'react-hook-form'
-import { createFormRecordSchema, createFormRecordSchemaType } from '@/schema/createFormRecord'
+import { createFormRecordSchema, createFormRecordSchemaType } from '@/schema/createFormRecordSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
@@ -68,7 +68,7 @@ function CreateFormRecordDialog({ open, portfolio, setOpen }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={openChangeWrapper}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:max-w-[825px]'>
         <DialogHeader>
           <DialogTitle className='flex gap-2'>
             Add task to portfolio:

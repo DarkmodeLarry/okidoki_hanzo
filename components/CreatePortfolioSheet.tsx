@@ -1,7 +1,7 @@
 import React from 'react'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from './ui/sheet'
 import { useForm } from 'react-hook-form'
-import { createPortfolioSchema, createPortfolioSchemaType } from '@/schema/createPortfolio'
+import { createPortfolioSchema, createPortfolioSchemaType } from '@/schema/createPortfolioSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,

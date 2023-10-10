@@ -8,7 +8,17 @@ type StepProps = FormItems & {
   errors: Partial<FormItems>
 }
 
-const UserInfoForm = ({ name, email, phone, errors, updateForm }: StepProps) => {
+const UserInfoForm = ({
+  firstName,
+  middleName,
+  lastName,
+  driversLicense,
+  dob,
+  email,
+  phone,
+  errors,
+  updateForm
+}: StepProps) => {
   return (
     <FormWrapper
       title='Personal info'
@@ -46,8 +56,8 @@ const UserInfoForm = ({ name, email, phone, errors, updateForm }: StepProps) => 
           <Input
             autoFocus
             type='text'
-            name='name'
-            id='name'
+            name='lastName'
+            id='lastName'
             placeholder='Last Name'
             value={name}
             onChange={(e) => updateForm({ name: e.target.value })}
@@ -99,7 +109,6 @@ const UserInfoForm = ({ name, email, phone, errors, updateForm }: StepProps) => 
         </div>
 
         <div className='flex flex-col gap-2'>
-          <Label htmlFor='email'>Email</Label>
           <Input
             type='text'
             name='email'
@@ -112,7 +121,6 @@ const UserInfoForm = ({ name, email, phone, errors, updateForm }: StepProps) => 
           {errors.email && <p className='text-sm text-red-500'>{errors.email}</p>}
         </div>
         <div className='flex flex-col gap-2'>
-          <Label htmlFor='phone'>Phone Number</Label>
           <Input
             type='tel'
             name='phone'

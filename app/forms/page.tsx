@@ -131,8 +131,8 @@ export default function IrrevocableLivingTrust() {
   return (
     <div
       className={`flex justify-between ${
-        currentStepIndex === 1 ? 'h-[800px] md:h-[800px]' : 'h-[800px]'
-      } w-11/12 max-w-4xl relative m-1 rounded-lg border border-neutral-700 bg-[#262626] p-4`}
+        currentStepIndex === 1 ? 'h-full' : 'h-full'
+      } w-11/12 max-w-4xl relative mb-6 rounded-lg border-4  border-neutral-700 bg-[#262626] p-4`}
     >
       {!showSuccessMsg ? <SideBar currentStepIndex={currentStepIndex} goTo={goTo} /> : ''}
       <main className={`${showSuccessMsg ? 'w-full' : 'w-full md:mt-5 md:w-[65%]'}`}>

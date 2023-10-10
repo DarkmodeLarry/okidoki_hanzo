@@ -3,7 +3,6 @@ import React from 'react'
 import Logo from './Logo'
 import ThemeSwitcher from './ThemeSwitcher'
 import Link from 'next/link'
-import { siteConfig } from '@/config/site'
 
 const mainNav = [
   {
@@ -22,7 +21,7 @@ const mainNav = [
 
 function NavBar() {
   return (
-    <nav className='flex w-full items-center justify-between p-4 px-8 h-[60px]'>
+    <nav className='flex fixed top-0 w-full items-center justify-between p-4 px-8 h-[60px]'>
       <Logo />
       <div className='flex gap-8'>
         {mainNav.map((item) => (

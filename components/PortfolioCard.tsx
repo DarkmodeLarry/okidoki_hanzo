@@ -76,7 +76,7 @@ function PortfolioCard({ portfolio }: Props) {
         portfolio={portfolio}
       />
 
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className='w-96'>
         <CollapsibleTrigger asChild>
           <Button
             variant={'ghost'}
@@ -98,7 +98,7 @@ function PortfolioCard({ portfolio }: Props) {
               className='flex items-center justify-center gap-1 p-8 py-12 rounded-none'
               onClick={() => setShowCreateModal(true)}
             >
-              <p>There are no formRecords yet:</p>
+              <p>There are no records yet:</p>
               <span
                 className={cn(
                   'text-sm bg-clip-text text-transparent',
